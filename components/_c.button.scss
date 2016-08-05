@@ -1,0 +1,74 @@
+/*
+    COMPONENTS.BUTTON
+    ----
+    
+==================================================== */
+
+/* Buttons config */
+$button-color-maps: (
+    primary:(
+        bgColor: (
+            normal:    white,
+            hover:     #000,
+            focus:     #000,
+            disabled:  white
+        ),
+        textColor: (
+            normal:    #000,
+            hover:     white,
+            focus:     white,
+            disabled:  #000,
+        ),
+    ),
+    secondary: (
+        bgColor: (
+            normal:    white,
+            hover:     red,
+            focus:     red,
+            disabled:  white
+        ),
+        textColor: (
+            normal:    red,
+            hover:     #000,
+            focus:     #000,
+            disabled:  gray,
+        ),
+        borderColor: (
+            normal:    red,
+            hover:     red,
+            focus:     red,
+            disabled:  red
+        )
+    )
+);
+
+
+
+/* 
+	BUTTON.BASE
+*/
+.c-button {
+    @include resetAppearance(); //reset default browser btn appearance
+
+    position: relative;
+    display: inline-block;
+    padding: 0;
+
+    color: inherit;
+	
+}
+
+
+	.c-button__icon,
+	.c-button__text{
+		vertical-align: middle;
+	}
+
+	
+	.c-button__text{
+		margin-left: 0.5rem;
+	}
+	
+	.c-button__icon{
+		margin-top: -1px;
+	}

@@ -1,0 +1,29 @@
+/*
+    SETTINGS.COLORS
+    ----
+    
+    App wide colors united on sexy sass map
+    Use getAppColor() function to extract color and
+    tints and shades
+
+    Notes: you can put single variables here if
+    doesn't fit the getAppColor() pattern
+==================================================== */
+
+
+$app-color-maps: (
+    brand: (
+        light: #333,
+        base: #222,
+        dark: #111,
+    ),
+    primary:(
+    	base: green;
+    )
+    secondary: (
+    	base: red;
+    ),
+    text: (
+		base: #434343,
+    )
+);

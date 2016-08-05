@@ -1,0 +1,237 @@
+/*
+    TOOLS.MIXINS
+    ----
+
+    Global, app-wide helper mixins
+
+    types, check near the name.
+    [1] direct mixin, @include mixinName(); prints code takes no arguments
+    [2] @content mixin, @include mixinName { property(ies): value(s)}
+    [3] argument mixin, @include mixinName(requiredArguments);
+
+==================================================== */
+
+/*
+    REM font-sizing, converts pixels to rems
+    From aleut.css
+    https://github.com/aleutcss/tools.mixins/blob/master/_tools.mixins.scss
+*/
+@mixin font-size($mixin-font-size, $mixin-line-height: auto) {
+    font-size: $mixin-font-size;
+    font-size: ($mixin-font-size / $base-font-size) * 1rem;
+
+    @if $mixin-line-height == auto {
+        line-height: ceil($mixin-font-size / $base-line-height) * ($base-line-height / $mixin-font-size);
+    }
+
+    @else {
+
+        @if (type-of($mixin-line-height) == number or $mixin-line-height == inherit or $mixin-line-height == normal) {
+            line-height: $mixin-line-height;
+        }
+
+        @elseif ($mixin-line-height != none and $mixin-line-height != false) {
+            @warn "D’oh! ‘#{$mixin-line-height}’ is not a valid value for `line-height`."
+        }
+
+    }
+
+}
+
+
+
+
+
+/* 
+    FONT-FACE
+
+    Steve Hickey
+    http://codepen.io/javasteve99/pen/hDxpn
+*/
+@mixin font-face($font-family, $file-path, $font-weight, $font-style, $RoR: false) {
+    
+    $url-prefix: 'url';
+    @if $RoR == true {
+        $url-prefix = 'font-url';
+    }
+
+
+      @font-face {
+        font-family: $font-family;
+          src: $url-prefix('#{$file-path}.eot');
+          src: $url-prefix('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+               $url-prefix('#{$file-path}.woff') format('woff'),
+               $url-prefix('#{$file-path}.woff') format('woff2'),
+               $url-prefix('#{$file-path}.ttf') format('truetype'),
+               $url-prefix('#{$file-path}.svg##{$font-family}') format('svg');
+        font-weight: $font-weight;
+        font-style:  $font-style;
+      }
+
+  // Chrome for Windows rendering fix: http://www.adtrak.co.uk/blog/font-face-chrome-rendering/
+  // @media screen and (-webkit-min-device-pixel-ratio: 0) {
+  //   @font-face {
+  //     font-family: $font-family;
+  //       src: url('#{$file-path}.svg##{$font-family}') format('svg');
+  //   }
+  // }
+}
+
+
+
+
+
+/*
+    RESET APPEARANCE [1]
+    ----
+
+    reset browser defaults on interactive elements
+    links, buttons, inputs
+*/
+@mixin resetAppearance() {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: none;
+    outline: none;
+    box-shadow: none;
+    border: 0;
+    //user-select: none;
+    border-radius: 0;
+}
+
+
+
+
+
+/*
+    TRUNCATE [1]
+    ----
+    
+    Yup that's it.    
+*/
+@mixin truncate() {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+
+
+
+
+/*
+    INPUT PLACEHOLDER MIXIN [2]
+    ----
+
+    styles for inputs placeholders, cross-browser way
+*/
+@mixin inputPlaceholder {
+    &::-webkit-input-placeholder {
+        @content;
+    }
+
+    &:-moz-placeholder { /* Firefox 18- */
+        @content;
+    }
+
+    &::-moz-placeholder {  /* Firefox 19+ */
+        @content;
+    }
+
+    &:-ms-input-placeholder {
+        @content;
+    }
+}
+
+
+
+
+
+
+/*
+    CLEARFIX
+    ----
+
+    Mixin to drop micro clearfix into a selector. Further reading:
+    http://www.cssmojo.com/the-very-latest-clearfix-reloaded/
+*/
+@mixin clearfix() {
+
+    &:after {
+        content: " " !important;
+        display: block !important;
+        clear: both !important;
+    }
+
+}
+
+
+
+
+
+/*
+    HOCUS
+    ----
+
+    Generate `:hover` and `:focus` styles in one go.
+    https://github.com/inuitcss/inuitcss/
+*/
+@mixin hocus() {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+
+
+/*
+    HOCUS
+    ----
+
+    Mixin to quickly apply accessible hiding to elements.
+    https://github.com/inuitcss/inuitcss/
+*/
+@mixin hidden-visually() {
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+}
+
+
+
+
+
+/*
+    CUSTOM SCROLLBAR STYLES [3] (Work in Progress)
+
+    -webkit only
+
+    https://css-tricks.com/wp-content/uploads/2011/05/scrollbarparts.png
+*/
+@mixin customScrollBarStyle($size: 6px, $thumbColor: #002339, $trackBgColor: rgba(255,255,255,.1)){
+
+
+    /* 1 */
+    &::-webkit-scrollbar              { width: $size !important;  }
+    &::-webkit-scrollbar:horizontal   { height: $size !important; }
+    /* 2 */
+    &::-webkit-scrollbar-button       {  }
+    /* 3 */
+    &::-webkit-scrollbar-track        { background: $trackBgColor; }
+    /* 4 */
+    &::-webkit-scrollbar-track-piece  {  }
+    /* 5 */
+    &::-webkit-scrollbar-thumb        { background-color: $thumbColor; }
+    /* 6 */
+    &::-webkit-scrollbar-corner       {  }
+    /* 7 */
+    &::-webkit-resizer                {  }
+}
+

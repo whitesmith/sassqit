@@ -1,0 +1,81 @@
+/*
+    COMPONENTS.BAR
+    ----
+    
+    Horizonal bars, usefull for headers, footers,
+    headers in windows, overlay bars in cards you
+    name it.
+==================================================== */
+
+$bar-height-maps:(
+	primary: (
+		base: 56px;
+		lg: 64px;
+	),
+	secondary:(
+		base: 48px;
+		lg: 56px;
+	),
+	tab: (
+		base: 44px;
+	)
+)
+
+.c-bar{
+	position: relative;
+	display: flex;
+	width: 100%;
+
+	&--primary{
+		height: 56px;
+
+		@include mappy-bp(lg){
+			height: 64px;
+		}
+	}
+
+	&--secondary{
+		height: 48px;
+
+		@include mappy-bp(lg){
+			height: 56px;
+		}
+	}
+
+	
+
+}
+
+
+	/* inner bits */
+	.c-bar__block{
+		display: flex;
+    	align-items: center;
+
+    	&:not(:only-child){
+    		padding: 0 8px;
+    	}
+    	&--shy-right{ margin-left: auto; }
+    	&--shy-left{ margin-right: auto; }
+	}
+
+
+	.c-bar__title{
+		position: relative;
+		@include font-size(16px, 1);
+		
+
+		@include mappy-bp(sm){
+			@include font-size(18px);
+		}
+		
+		.c-bar__block:first-child & {
+			margin-left: 16px;
+		}
+
+		.c-bar--nightly & {
+			color: white;
+		}
+
+	}
+		

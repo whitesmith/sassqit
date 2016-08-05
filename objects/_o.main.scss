@@ -1,0 +1,23 @@
+/*
+    OJECTS.MAIN
+    ----
+    
+
+    App wrappers, because on non static projects
+    like react and rails you proably need them
+==================================================== */
+
+//For react
+.o-app{
+	width: 100%;
+	height: 100%;
+}
+
+/*
+	Use for main oject
+
+	<main class="o-main"></main>
+*/
+.o-main{
+	
+}
