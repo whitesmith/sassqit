@@ -2,7 +2,9 @@ import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import del from 'del';
 import panini from 'panini';
-import browserSync from 'browser-sync'
+import BrowserSync from 'browser-sync'
+
+const browserSync = BrowserSync.create();
 
 const $ = gulpLoadPlugins();
 const productionEnv = $.util.env.env === 'production';
@@ -151,7 +153,7 @@ export function browserSyncServer(done){
     config.tunnel = "";
   }
 
-  browserSync(config);
+  browserSync.init(config);
   done()
 }
 
