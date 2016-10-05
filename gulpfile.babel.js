@@ -162,12 +162,15 @@ export function paniniRefresh(done){
   done()
 }
 
-export function paniniRebuild(done) {
-  gulp.series(
+export function viewsBuildAndStream() {
+  return views()
+    .pipe(browserSync.stream())
+}
+
+export function paniniRebuild() {
+  return gulp.series(
     paniniRefresh,
-    views,
-    browserSync.reload,
-    done
+    viewsBuildAndStream
   );
 };
 
@@ -177,7 +180,7 @@ export function watch(done) {
   gulp.watch(paths.fonts.src,   fonts);
   gulp.watch(paths.styles.src,  styles);
   gulp.watch(paths.scripts.src, scripts);
-  gulp.watch(paths.views.src,   views);
+  gulp.watch(paths.views.src,   paniniRebuild());
 
   $.util.log($.util.colors.bgGreen('Watching for changes...'));
   done()
