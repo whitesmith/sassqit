@@ -52,7 +52,7 @@
     
     $url-prefix: 'url';
     @if $RoR == true {
-        $url-prefix = 'font-url';
+        $url-prefix: 'font-url';
     }
 
 
@@ -63,7 +63,7 @@
                $url-prefix('#{$file-path}.woff') format('woff'),
                $url-prefix('#{$file-path}.woff') format('woff2'),
                $url-prefix('#{$file-path}.ttf') format('truetype'),
-               $url-prefix('#{$file-path}.svg##{$font-family}') format('svg');
+               $url-prefix('#{$file-path}.svg#{$font-family}') format('svg');
         font-weight: $font-weight;
         font-style:  $font-style;
       }
