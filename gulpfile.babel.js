@@ -166,7 +166,30 @@ export function paniniRebuild() {
 };
 
 
-export function watch(done) {
+/*
+ * Local server using BrowserSync
+ */
+export function browserSyncServer(done){
+  var config = {
+      server: {
+        baseDir: paths.appRoot.dest,
+      }
+  }
+  //run TUNNEL=true gulp to start public tunnel url to share.
+  if (process.env.TUNNEL === 'true') {
+    config.tunnel = "";
+  }
+
+  browserSync.init(config);
+  done()
+}
+
+
+
+/*
+ * Listen for Changes
+ */
+export function watch() {
   gulp.watch(paths.images.src,  images);
   gulp.watch(paths.fonts.src,   fonts);
   gulp.watch(paths.styles.src,  styles);
@@ -174,10 +197,14 @@ export function watch(done) {
   gulp.watch(paths.views.src,   paniniRebuild());
 
   $.util.log($.util.colors.bgGreen('Watching for changes...'));
-  done()
 }
 
 
+/*
+ * Build
+ *
+ * Create a deployable folder
+ */
 const build = gulp.series(
   clean, 
   gulp.parallel(
@@ -189,11 +216,36 @@ const build = gulp.series(
   )
 );
 
-export { build };
 
-const serve = gulp.series( build, gulp.parallel(watch, browserSyncServer));
-export { serve };
 /*
- * Export a default task
+ * Serve
+ *
+ * Serve the deployable folder watch for changes and start a dev server
  */
-export default build;
+const serve = gulp.series( 
+  build, 
+  gulp.parallel(watch, browserSyncServer)
+);
+
+
+/*
+ * Deploy To gitHubPages
+ *
+ * Serve the deployable folder watch for changes and start a dev server
+ */
+const deploy = gulp.series(
+    build,
+    function(){
+      return gulp.src(appRoot.dest)
+        .pipe(ghPages());
+    }
+);
+
+
+
+
+/* Export const functions */
+export { build, serve, deploy};
+
+/* Default gulp task as serve*/
+export default serve;
