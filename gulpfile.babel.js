@@ -148,21 +148,6 @@ export function views() {
 
 }
 
-export function browserSyncServer(done){
-  var config = {
-      server: {
-        baseDir: paths.appRoot.dest,
-      }
-  }
-  //run TUNNEL=true gulp to start public tunnel url to share.
-  if (process.env.TUNNEL === 'true') {
-    config.tunnel = "";
-  }
-
-  browserSync.init(config);
-  done()
-}
-
 export function paniniRefresh(done){
   panini.refresh()
   done()
