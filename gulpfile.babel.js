@@ -79,6 +79,7 @@ export function images() {
       progressive: true,
       interlaced: true
     }))
+    .pipe($.if(productionEnv, $.size({title: $.util.colors.bgRed('[SIZE] Images: ')})))
     .pipe(gulp.dest(paths.images.dest));
 }
 
@@ -115,6 +116,7 @@ export function styles() {
     .pipe($.rename({
       basename: 'app'
     }))
+    .pipe($.if(productionEnv, $.size({title:  $.util.colors.bgRed('[SIZE] Styles: ')})))
     .pipe($.if(!productionEnv, $.sourcemaps.write({
       includeContent: true,
       sourceRoot: '.'
@@ -130,6 +132,10 @@ export function scripts() {
     .pipe($.if(productionEnv, $.uglify()))
     .pipe($.remember('scripts'))
     .pipe($.concat('app.js'))
+    .pipe($.if(productionEnv, 
+      $.size({
+        title: $.util.colors.bgRed('[SIZE] Scripts: ')
+    })))
     .pipe(gulp.dest(paths.scripts.dest));
 }
 
@@ -161,6 +167,10 @@ export function views() {
           removeStyleLinkTypeAttributes: true,
           removeOptionalTags: true
         })))
+    .pipe($.if(productionEnv, $.size({
+      title: $.util.colors.bgRed('[SIZE] Views: '), 
+      showFiles: true
+    })))
     .pipe(gulp.dest(paths.views.dest))
 
 }
