@@ -2,10 +2,11 @@ import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import del from 'del';
 import panini from 'panini';
-import BrowserSync from 'browser-sync'
+import BrowserSync from 'browser-sync';
+import {output as pagespeed} from 'psi';
+import pkg from './package.json';
 
 const browserSync = BrowserSync.create();
-
 const $ = gulpLoadPlugins();
 const productionEnv = $.util.env.env === 'production';
 
@@ -37,7 +38,18 @@ const paths = {
   }
 };
 
-
+/*Utilities*/
+// Run PageSpeed Insights
+export function runPageSpeedInsights(done){
+  console.log(pkg.homepage)
+  pagespeed(pkg.homepage, {
+      strategy: 'mobile'
+      // By default we use the PageSpeed Insights free (no API key) tier.
+      // Use a Google Developer API key if you have one: http://goo.gl/RkN0vE
+      // key: 'YOUR_API_KEY'
+  })
+  done()
+}
 export function handleError(task) {
   return function (err) {
 
