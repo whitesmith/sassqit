@@ -64,7 +64,7 @@ export { clean }
 
 /*Copy Common App RootFiles */
 export function copyRootFiles() {
-  return gulp.src(paths.appRoot.src + '/*.*', {since: gulp.lastRun('copyRootFiles'), dot: true})
+  return gulp.src([paths.appRoot.src + '/*.*', paths.appRoot.src + '/CNAME'], {since: gulp.lastRun('copyRootFiles'), dot: true})
     .pipe(gulp.dest(paths.appRoot.dest));
 }
 
@@ -238,13 +238,17 @@ const serve = gulp.series(
  *
  * Serve the deployable folder watch for changes and start a dev server
  */
+
+export function githubPages() {
+  return gulp.src([paths.appRoot.dest + '**/*.*', paths.appRoot.dest + 'CNAME'])
+    .pipe($.ghPages());
+}
+
+
 const deploy = gulp.series(
     build,
     copyRootFiles,
-    function(){
-      return gulp.src(appRoot.dest)
-        .pipe(ghPages());
-    }
+    githubPages
 );
 
 
