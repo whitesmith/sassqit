@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html class="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Title</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="./assets/images/favicon.png">
+
+    {{> _crossplatform_favicons}}
+
+    <!--SEO DEFAULTS-->
+    <meta name="application-name" content="Slackmarq"/>
+    <meta name="author" content="Whitesmith"/>
+    <meta name="keywords" content="slack, links, big-data, data, facebook,"/>
+    <meta name="description" content="Most popular slack links, curated by and for your slack team, with a little help from Marq."/>
+    <meta name="robots" content="INDEX, FOLLOW">
+
+    <!--dynamic meta tags about the post for sharing -->
+    {{> _sharing_meta_tags }}
+
+    <link rel="stylesheet" href="./stylesheets/app.css" />
+  </head>
+  <body>
+
+    <div class="o-app" id="app">
+        <!--app header-->
+		{{> _header }}
+		<main class="o-main" role="main">
+        {{> body}}
+        </main>
+        <!--app footer-->
+        {{> _footer }}
+    </div>
+
+    <!--scripts-->
+    <script src="./scripts/app.js"></script>
+    {{> _google_analytics}}
+  </body>
+</html>

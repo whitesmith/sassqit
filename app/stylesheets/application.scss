@@ -39,48 +39,12 @@
 	*= flexboxgrid/dist/flexboxgrid
 */
 
-/* VENDOR */
-@import
-    "normalize-css/normalize",
-    "sassy-maps/sass/sassy-maps",
-    "flexboxgrid/dist/flexboxgrid",
-    "mappy-breakpoints/_mappy-breakpoints";
+@import "objects/o.media";
 
+body{
+    background: red;
 
-/* SETTINGS */
-@import "settings/s.globals";
-
-
-/* TOOLS */
-@import
-    "tools/t.functions",
-    "tools/t.mixins";
-
-
-/* BASE */
-@import
- 	"base/b.reset",
-	"base/b.box-sizing",
-	"base/b.fonts",
-	"base/b.page",
-	"base/b.html-elements";
-  
-
-/* OBJECTS */
-@import
-    "objects/o.media",
-    "objects/o.layout",
-    "objects/o.main",
-    "objects/o.container";
-
-
-/* COMPONENTS */
-@import
-    "components/c.bar",
-
-
-/* UTILITIES*/
-@import
-    "utilities/helpers",
-    "utilities/colorize";
-
+    h1{
+        color: white;
+    }
+}
