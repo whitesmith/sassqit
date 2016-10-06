@@ -116,12 +116,18 @@ export function scripts() {
     .pipe(gulp.dest(paths.scripts.dest));
 }
 
+
+/*
+ * Static sites like a bauss using Panini by Zurb
+ *
+ * repo: https://github.com/zurb/panini
+ */
 export function views() {
   return gulp.src(paths.views.src + 'pages/**/*.html' )
     .pipe(panini({
       root: paths.views.src + 'pages/',
       layouts: paths.views.src + 'layouts/',
-      partials: paths.views.src + 'partials/',
+      partials: paths.views.src + 'partials/**/',
       helpers: paths.views.src + 'helpers/',
       data: paths.views.src + 'data/'
     }))
