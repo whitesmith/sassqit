@@ -1,0 +1,228 @@
+/*
+    OBJECTS.GRID
+    ----
+
+
+    an float free, inline-block grid,
+    with an optional flexbox flavour.
+
+    usage:
+
+    <div class="o-grid">
+		<div class="o-grid__row">
+			<div class="o-grid__item o-grid__iteridm--@xs10-@sm6-@md4-@lg5"></div>
+		</div>
+	</div>rid
+
+	requires:
+		border-box box-sizing or it will horizonal
+		overflow;
+
+* ==================================================== */
+
+$grid-columns: 12;
+$grid-gutter: 30px;
+
+.o-grid,
+.o-grid__row,
+.o-grid__item{
+	box-sizing: border-box;
+}
+
+.o-grid{
+	position: relative;
+	width: 100%;
+	display: block;
+
+	&--fluid{
+		position: relative;
+		padding: 0 $grid-gutter / 2;
+	}
+
+	&--no-rows,
+	&--collapse{
+		padding: 0;
+	}
+	
+	//no rows = single, contained = inside container wrapper div
+	&--single-contained{
+		font-size: 0px; //remove inline block whitespace
+		width: auto;
+		margin:{
+			left: -($grid-gutter/2);
+			right: -($grid-gutter/2);
+		};
+	}
+}
+
+
+	/*
+		GRID ROWS
+	*/
+	.o-grid__row {
+		position: relative;
+		display: block;
+		margin:{
+			left: -($grid-gutter/2);
+			right: -($grid-gutter/2);
+		};
+
+		.o-grid--collapse & {
+			margin:{
+				left: 0;
+				right: 0;
+			};
+		}
+
+		.o-grid:not(.o-grid--flex) & {
+			font-size: 0px; //remove inline block whitespace
+		}
+
+		.o-grid--flex & {
+			display: flex;
+			flex: 0 1 auto;
+			flex-direction: row;
+			flex-wrap: wrap;
+
+			&[data-layout*="reverse"]{
+				flex-direction: row-reverse
+			}
+		}
+
+		&[data-layout]{
+			width: auto;
+		}
+	}
+
+	ul.o-grid__row{
+		margin-top: 0px;
+		margin-bottom: 0px;
+		list-style: none;
+		padding:0;
+	}
+
+
+
+	/*
+		GRID ITEMS
+	*/
+	.o-grid__item {
+		position: relative;
+		display: inline-block;
+		vertical-align: top;
+		font-size: 1rem;
+		width: 100%;
+		padding: 0 $grid-gutter / 2;
+
+		.o-grid--collapse & {
+			padding: {
+				left: 0;
+				right: 0;
+			};
+		}
+
+		// Flex flavor
+		.o-grid--flex & {
+		  	flex: 0 0 auto;
+		  	display: flex;
+		}
+	}
+
+
+	/* Generate columns and offsets*/
+	// Column sizingi mobile-first based on presence of class responsive strings
+		@for $i from 1 through $grid-columns {
+			$widthCalc:  100% * $i / $grid-columns;
+		  	.o-grid__item[class*="\@xs#{$i}"] {
+		  		width: $widthCalc;
+
+		  		.o-grid--flex & {
+		  			flex-basis: $widthCalc;
+					max-width:  $widthCalc;
+		  		}
+		  	}
+
+		  	.o-grid__item--\@xs-offset-#{$i}{
+				margin-left: $widthCalc;
+			}
+		}
+
+		// sm breakpoint
+		@include mappy-bp(sm){
+			@for $i from 1 through $grid-columns {
+				$widthCalc:  100% * $i / $grid-columns;
+
+			  	.o-grid__item[class*="\@sm#{$i}"] {
+			  		width: $widthCalc;
+
+			  		.o-grid--flex & {
+			  			flex-basis: $widthCalc;
+						max-width:  $widthCalc;
+			  		}
+			  	}
+
+			  	.o-grid__item--\@sm-offset-#{$i}{
+					margin-left: $widthCalc;
+			  	}
+			}
+		}
+
+		// md breakpoint
+		@include mappy-bp(md){
+			@for $i from 1 through $grid-columns {
+				$widthCalc:  100% * $i / $grid-columns;
+
+			  	.o-grid__item[class*="\@md#{$i}"] {
+			  		width: $widthCalc;
+
+			  		.o-grid--flex & {
+			  			flex-basis: $widthCalc;
+						max-width:  $widthCalc;
+			  		}
+			  	}
+
+			  	.o-grid__item--\@md-offset-#{$i}{
+					margin-left: $widthCalc;
+			  	}
+
+			}
+		}
+
+		//lg breakpoint
+		@include mappy-bp(lg){
+			@for $i from 1 through $grid-columns {
+				$widthCalc:  100% * $i / $grid-columns;
+
+			  	.o-grid__item[class*="\@lg#{$i}"] {
+			  		width: $widthCalc;
+
+			  		.o-grid--flex & {
+			  			flex-basis: $widthCalc;
+						max-width:  $widthCalc;
+			  		}
+			  	}
+
+			  	.o-grid__item--\@lg-offset-#{$i}{
+					margin-left: $widthCalc;
+			  	}
+		  	}
+		}
+
+
+.is-first-\@xs-down{
+	@include mappy-bp(max sm){
+		order: -1;
+	}
+}
+
+.is-last-\@xs-down{
+	@include mappy-bp(max sm){
+		order: 9999;
+	}
+}
+
+.is-last-\@sm-down{
+	@include mappy-bp(max sm){
+		order: 9999;
+	}
+}

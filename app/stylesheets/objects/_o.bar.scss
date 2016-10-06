@@ -1,0 +1,89 @@
+/*
+    OBJECTS.BAR
+    ----
+    
+    Horizonal bars, usefull for headers, footers,
+    headers in windows, overlay bars in cards you
+    name it.
+* ==================================================== */
+
+$bar-height-maps:(
+	primary: (
+		base: 56px,
+		md: 70px
+	),
+	secondary:(
+		base: 48px,
+		md: 56px
+	)
+);
+
+.o-bar{
+	position: relative;
+	display: flex;
+	width: 100%;
+
+	&--primary{
+		height: map-deep-get($bar-height-maps, primary, base);
+
+		@include mappy-bp(md){
+			height: map-deep-get($bar-height-maps, primary, md);
+		}
+	}
+
+	&--secondary{
+		height: map-deep-get($bar-height-maps, secondary, base);
+
+		@include mappy-bp(md){
+			height: map-deep-get($bar-height-maps, secondary, md);
+		}
+	}
+}
+
+	/* inner bits */
+	.o-bar__block{
+		display: flex;
+    	align-items: center;
+    	padding: 0 8px;
+		
+		&:only-child,
+    	.o-bar--collapse & {
+    		padding: 0;
+    	}
+		
+
+		.o-bar--collapse\@md &{
+			&:first-child{
+    			@include mappy-bp(md){
+    				padding-left:0;
+	    		}
+	    	}
+
+	    	&:last-child{
+	    		@include mappy-bp(md){
+	    			padding-right:0;
+	    		}
+	    	}
+		}
+   
+
+    	&--shy-right{ margin-left: auto; }
+    	&--shy-left{ margin-right: auto; }
+	}
+
+
+	.o-bar__title{
+		position: relative;
+		@include font-size(16px, 1);
+		
+
+		@include mappy-bp(sm){
+			@include font-size(18px, 1);
+		}
+		
+		.o-bar__block:first-child & {
+			margin-left: 16px;
+		}
+
+	}
+		

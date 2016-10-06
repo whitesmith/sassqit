@@ -2,6 +2,63 @@
     OBJECTS.LIST
     ----
     
+	Order and unordered list of items
+* ==================================================== */
 
 
-==================================================== */
+.o-list{
+	margin: 0; //reset default margins;
+	margin-bottom: $s-baseline;
+}
+
+.o-list--unstyled{
+	list-style: none;
+	padding: 0;
+}
+
+
+	.o-list__item{
+		margin-bottom: $s-baseline;
+
+		.o-list--tight & {
+			margin-bottom: $s-baseline / 2;
+		}
+		
+		.o-list--xs &{
+			@include font-size(12px, 14px);
+		} 
+
+		.o-list--xxs & {
+			@include font-size(10px, 12px);
+			margin-bottom: $s-baseline / 4;
+		}
+
+		&:last-child{
+			margin-bottom: 0;
+		}
+	}
+
+
+.o-list--horizontal{
+	list-style: none;
+	padding-left: 0;
+
+	> .o-list__item{
+		margin-bottom: 0;
+		display: inline-block;
+		vertical-align: middle;
+
+		&:not(:last-child){
+			margin-right: $s-baseline / 2;
+		}
+	}
+}
+
+
+
+//inherits the spacing for the current font-size/leading ration
+.o-list--baseline{
+	.o-list__item{
+		margin-bottom: 0;
+	}
+}

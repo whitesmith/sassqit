@@ -5,10 +5,10 @@
 
      Use getTransition(key) function to extract or
      just use map-get($transitions-map, 'key');
-==================================================== */
+* ==================================================== */
 
 
 $transitions-map: (
-	smooth: "cubic-bezier(0.1, 0.82, 0.25, 1)",
-	bounce: "cubic-bezier(0.1, 0.82, 0.25, 1)"
+	smooth: cubic-bezier(0.1, 0.82, 0.25, 1),
+	bounce: cubic-bezier(0.1, 0.82, 0.25, 1)
 );

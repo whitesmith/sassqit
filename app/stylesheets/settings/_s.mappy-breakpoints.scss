@@ -5,9 +5,11 @@
     Using mappy breakpoints Awesome mixin
     https://github.com/zellwk/mappy-breakpoints
 
-    How to use: Checkout the readme.
-    Don't worry, it will convert values to ems
-==================================================== */
+    Note: it will convert values to ems for consintent
+    performance in most browsers
+
+    http://zellwk.com/blog/media-query-units/
+* ==================================================== */
 
 $breakpoints: (
     'xxs':  480px,

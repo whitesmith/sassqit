@@ -25,26 +25,41 @@
     5. OBJECTS
     6. COMPONENTS
     7. UTILITIES
-
-
-    Notes:
-    For .sass, .scss files use import and not require
-    for .css files you can use both *= require or @import, but require must be bellow this section
-    On components, import from more atomic to molecule ones
-
-    Requires:
-
-    //*="require lib path without quotes"
-	*= normalize-css/normalize
-	*= flexboxgrid/dist/flexboxgrid
 */
 
+//VENDOR
+@import "node_modules/normalize.css/normalize";
+
+//SETTINGS
+@import "settings/s.mappy-breakpoints";
+@import "settings/s.globals";
+@import "settings/s.app-colors";
+@import "settings/s.transitions";
+@import "settings/s.typescale";
+
+// Functions & Mixins
+@import "node_modules/mappy-breakpoints/mappy-breakpoints";
+@import "tools/t.functions";
+@import "tools/t.mixins";
+
+
+//BASE
+@import "base/b.reset";
+@import "base/b.box-sizing";
+@import "base/b.page";
+@import "base/b.html-elements";
+
+
+//OBJECTS
+@import "objects/o.main";
+@import "objects/o.container";
+@import "objects/o.grid";
 @import "objects/o.media";
 
-body{
-    background: red;
 
-    h1{
-        color: white;
-    }
-}
+//COMPONENTS
+@import "components/c.button";
+
+//UTILITIES
+@import "utilities/u.coloring";
+@import "utilities/u.helpers";

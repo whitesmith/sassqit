@@ -1,23 +1,28 @@
 /*
     OJECTS.MAIN
     ----
-    
 
     App wrappers, because on non static projects
     like react and rails you proably need them
 ==================================================== */
 
-//For react
 .o-app{
 	width: 100%;
 	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
+
+.o-app__header,
+.o-app__header {
+	flex: none;
+}
 /*
 	Use for main oject
-
 	<main class="o-main"></main>
 */
 .o-main{
-	
+	flex: 1 0 auto;
+	width: 100%;
 }

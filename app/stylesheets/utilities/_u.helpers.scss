@@ -15,7 +15,27 @@
 
 	visually hide text but kepp it accessible to screen readers 
 */
-
 .u-sr-only {
 	@include hidden-visually();
+}
+
+
+/*
+	TEXT ALIGNMENT
+	----
+*/
+.u-text-center{ text-align: center; }
+
+//default is mobile first, so propagate from small up
+.u-text-center--\@sm {
+	@include mappy-bp(sm) {
+		text-align: center;
+	}
+}
+
+//-down suffix indicate a specif style for a reduced breakpoint case
+.u-text-center--\@sm-down {
+	@include mappy-bp(max sm) {
+		text-align: center;
+	}
 }

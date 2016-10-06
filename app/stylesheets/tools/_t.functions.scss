@@ -5,7 +5,21 @@
     Global, app-wide helper functions
     Some are just shortcuts to avoid verbosity
     and remember map names.
-==================================================== */
+* ==================================================== */
+
+
+/// Map deep get
+/// @author Hugo Giraudel
+/// @access public
+/// @param {Map} $map - Map
+/// @param {Arglist} $keys - Key chain
+/// @return {*} - Desired value
+@function map-deep-get($map, $keys...) {
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+    @return $map;
+}
 
 
 
@@ -13,54 +27,31 @@
     getAppColor()
     ----
 
-    retrives a color from the app-color-maps defined at _global.scss
+    retrives a color from the app-colors-maps defined at _global.scss
     tone defaults to base, i want another, pass as second argument.
     Plicas are optional.
 
     Depends on:
-    	sassy-maps
-        _s.colors.scss
+    	map-deep-get()
+        _s.app-colors.scss
        
-
     How to use:
     getAppColor('primary') === getColor('primary', 'base')
     getAppColor('primary', 'light') retrieves light variation
 */
 
 @function getAppColor($color, $tone: "base") {
-    @if map-has-key($app-color-maps, $color) {
-        @return map-get-deep($app-color-maps, $color, $tone);
-    }
-
-    @if map-has-key($color, $tone){
-        //Is single value
-        @return map-get-deep($app-color-maps, $color, $tone);
-    } @else {
-        //Is single value
-        @return map-get($app-color-maps, $color);
-    }
+    @if map-has-key($app-colors-maps, $color) {
+        @if (type-of(map-get($app-colors-maps, $color)) == 'color' )  {
+            @return map-get($app-colors-maps, $color);
+        } @else {
+           @return map-deep-get($app-colors-maps, $color, $tone); // it's a map, get tone
+        }    
+    } 
     //else
-    @error "`#{$color}` is not in $app-color-maps. Check _global.scss";
+    @error "`#{$color}` is not in $app-colors-maps. Check _s.app-colors.scss";
     @return false;
 }
-
-
-@function getSocialMediaColor($name, $tone: "base"){
-    @if map-has-key($social-media-color-maps, $name) {
-
-        @if map-has-key($name, $tone){
-            @return map-get-deep($social-media-color-maps, $color, $tone);
-        } @else {
-            //Is single value
-            @return map-get($social-media-color-maps, $name);
-        }
-       
-    }
-    //else
-    @error "`#{$color}` is not in $app-color-maps. Check _global.scss";
-    @return false;
-}
-
 
 
 
@@ -72,11 +63,12 @@
 
 */
 
-@function getTransition($map: $transitions-map, $transition: 'smooth') {
-    @if map-has-key($map, $transition) {
+@function getTransition($transition: 'smooth') {
+    @if map-has-key($transitions-map, $transition) {
         @return map-get($transitions-map, $transition);
     }
     //else
     @error "`#{$transition}` is not in #{$map}. Check settings folder, maybe you mispelled a key";
+    @return false;
  }
 
