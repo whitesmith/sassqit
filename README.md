@@ -1,29 +1,13 @@
-# SCAFFOLD
-----
-This scaffold depends on bower, so you better get it.
+# Sassqit
 
-## Bower
-Just `bower install` it!
+##### For dev site
+1.  Install `node` and `npm install gulp -g`
+1. `npm install`
+1. `npm run gulp`
 
-#### Bower with Rails
-If on a Rails application we need to tell asset pipeline where to get bower_components
+##### deploy to github pages
+1. `npm run deploy` *will pass automatically the `--production` flag*
 
-1. Add `.bowerrc` and point the target
-
-```JSON
-
-{
-  "directory": "vendor/assets/bower_components"
-}
-```
-
-1. Tell asset pipeline where the components are, in `config/application.rb`
-
-```Ruby
-
-# tell asset pipeline where bower components are
-config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components')
-``
 
 ----
 # Whitesmith ™
