@@ -62,6 +62,11 @@ export { clean }
 //  done()
 // }
 
+/*Copy Common App RootFiles */
+export function copyRootFiles() {
+  return gulp.src(paths.appRoot.src + '/*.*', {since: gulp.lastRun('copyRootFiles'), dot: true})
+    .pipe(gulp.dest(paths.appRoot.dest));
+}
 
 /*
  * Copy & Optimize static assets
@@ -235,6 +240,7 @@ const serve = gulp.series(
  */
 const deploy = gulp.series(
     build,
+    copyRootFiles,
     function(){
       return gulp.src(appRoot.dest)
         .pipe(ghPages());
