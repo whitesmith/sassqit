@@ -5,6 +5,7 @@
 ==================================================== */
 
 /* Buttons config */
+$button-base-size: 40px;
 $button-color-maps: (
     primary:(
         bgColor: (
@@ -44,31 +45,51 @@ $button-color-maps: (
 
 
 
-/* 
-	BUTTON.BASE
+/*
+    BUTTON.BASE
 */
-.c-button {
+
+@mixin buttonBase{
     @include resetAppearance(); //reset default browser btn appearance
 
     position: relative;
     display: inline-block;
-    padding: 0;
-
+    vertical-align: middle;
     color: inherit;
-	
+    text-align: center;
+    white-space: nowrap;
+
+    transition: background 0.15s, color 0.15s, border 0.15s;
+    will-change: background, color, border;
 }
 
+@mixin buttonSkeleton{
+    border-radius: $button-radius;
+    padding: 0 1rem;
+    height: $button-base-size;
+    font-weight: 700;
+    @include font-size(14px, $button-base-size);
+}
 
-	.c-button__icon,
-	.c-button__text{
-		vertical-align: middle;
-	}
+.c-button{
+    @include buttonBase;
+}
 
-	
-	.c-button__text{
-		margin-left: 0.5rem;
-	}
-	
-	.c-button__icon{
-		margin-top: -1px;
-	}
+    .c-button__icon,
+    .c-button__text{
+        vertical-align: middle;
+    }
+
+    .c-button__text:first-child{
+        margin-right: 0.5rem;
+    }
+
+    .c-button__text:last-child{
+        margin-left: 0.5rem;
+    }
+
+    .c-button__icon{
+        margin-top: -1px;
+        // transition: fill 0.15s, color 0.15s;
+    }
+

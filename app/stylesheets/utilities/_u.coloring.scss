@@ -1,33 +1,37 @@
 /*
-    UTILITIE.COLORING
+    UTILITIES.COLORING
     ----
-    
 
-    classes for quickly add that social color 
-    to links text or backgrounds
-	Use this only for static elements,
-	ie not interactive ones.
+    Atomic classes for give color to html elemtns
+    Use only on static elements, not interactive
 
-
-	https://www.viget.com/articles/sass-maps-are-awesome
-==================================================== */
-
-
+* ==================================================== */
 
 /*
-	APP COLOR UTILITY CLASSES
-
-	depends on getAppColor() function
+	generates
+    .u-color-@colorname-@tone for each color in colorshceme
 */
-	@each $color-map, $tone in $app-color-maps {
-		.u-color--#{$color-map}-#{$tone}   { color:            getAppColor($color-map, $tone) }
-		.u-bgcolor--#{$color-map}-#{$tone} { background-color: getAppColor($color-map, $tone) }
-	}
 
-/* 
-	SOCIAL NETWORKS COLORING CLASSES
-*/
-@each $network, $color in $social-media-color-maps {
-	.u-color--#{$profile}   { color:            $color; }
-	.u-bgcolor--#{$profile} { background-color: $color; }
+@each $color, $tone in $app-colors-maps {
+  @if type-of($tone) == 'map' {
+    $tones: map-keys($tone);
+
+    @for $i from 1 through length($tones){
+    	.u-color-#{$color}--#{nth($tones, $i)} {
+    	    color: map-get($tone, nth($tones, $i ));
+    	}
+
+      .u-bg-color-#{$color}--#{nth($tones, $i)} {
+          background-color: map-get($tone, nth($tones, $i ));
+      }
+    }
+  } @else {
+    .u-color-#{$color}{
+      color: map-get($app-colors-maps, $color);
+    }
+
+    .u-bg-color-#{$color}{
+      background-color: map-get($app-colors-maps, $color);
+    }
+  }
 }

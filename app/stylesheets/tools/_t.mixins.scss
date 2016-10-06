@@ -9,19 +9,21 @@
     [2] @content mixin, @include mixinName { property(ies): value(s)}
     [3] argument mixin, @include mixinName(requiredArguments);
 
-==================================================== */
+* ==================================================== */
 
 /*
     REM font-sizing, converts pixels to rems
-    From aleut.css
+    Base on aleut.css
     https://github.com/aleutcss/tools.mixins/blob/master/_tools.mixins.scss
 */
-@mixin font-size($mixin-font-size, $mixin-line-height: auto) {
-    font-size: $mixin-font-size;
-    font-size: ($mixin-font-size / $base-font-size) * 1rem;
+@mixin font-size($mixin-font-size, $mixin-line-height: auto, $legacyBrowsers: false) {
+    @if $legacyBrowsers == true {
+        font-size: $mixin-font-size;
+    }
+    font-size: ($mixin-font-size / $s-base-font-size) * 1rem;
 
     @if $mixin-line-height == auto {
-        line-height: ceil($mixin-font-size / $base-line-height) * ($base-line-height / $mixin-font-size);
+        line-height: ceil($mixin-font-size / $s-base-font-line-height) * ($s-base-font-line-height / $mixin-font-size);
     }
 
     @else {
@@ -39,44 +41,86 @@
 }
 
 
+/* 
+    Mixin for quicker typesetting 
+    
+    depends on @font-size mixin to convert
+    values to REM
+*/
+
+@mixin typeScale($scale: 4){
+    $font-size: nth(map-get($s-typescale, $scale), 1);
+    $leading: nth(map-get($s-typescale, $scale), 2);
+    
+    @include font-size($font-size, $leading);
+}
+
 
 
 
 /* 
     FONT-FACE
 
-    Steve Hickey
+    Base on Steve Hickey..
     http://codepen.io/javasteve99/pen/hDxpn
-*/
-@mixin font-face($font-family, $file-path, $font-weight, $font-style, $RoR: false) {
     
-    $url-prefix: 'url';
-    @if $RoR == true {
-        $url-prefix: 'font-url';
+    .. but on steroids
+    You can cover all modern browsers, plus IE>9
+    with only woff formats.
+*/
+@mixin font-face($font-family, $file-path, $font-weight, $font-style, $RoR: false, $legacy: false){
+
+    @if $legacy == true {
+        @font-face {
+            font-family: $font-family;
+            @if $RoR == true {
+                src: font-url('#{$file-path}.eot');
+                src: font-url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+                     font-url('#{$file-path}.woff') format('woff'),
+                     font-url('#{$file-path}.ttf') format('truetype'),
+                     font-url('#{$file-path}.svg#{$font-family}') format('svg');
+            } @else {
+                src: url('#{$file-path}.eot');
+                src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+                     url('#{$file-path}.woff') format('woff'),
+                     url('#{$file-path}.ttf') format('truetype'),
+                     url('#{$file-path}.svg#{$font-family}') format('svg');
+            }
+
+            font-weight: unquote($font-weight);
+            font-style:  unquote($font-style);
+        }
+
+        // Chrome for Windows rendering fix: http://www.adtrak.co.uk/blog/font-face-chrome-rendering/
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            @font-face {
+                font-family: $font-family;
+                 @if $RoR == true {
+                    src: font-url('#{$file-path}.svg##{$font-family}') format('svg');
+                } @else {
+                    src: url('#{$file-path}.svg##{$font-family}') format('svg');
+                }
+                
+                font-weight: unquote($font-weight);
+                font-style:  unquote($font-style);
+            }
+        }
+    } 
+    @else {
+        @font-face {
+            font-family: $font-family;
+            @if $RoR == true {
+                src: font-url('#{$file-path}.woff') format('woff'),
+                     font-url('#{$file-path}.woff2') format('woff2');
+            } @else {
+                src: font-url('#{$file-path}.woff') format('woff'),
+                 font-url('#{$file-path}.woff2') format('woff2');   
+            }
+            font-weight: unquote($font-weight);
+            font-style:  unquote($font-style);
+        }
     }
-
-
-      @font-face {
-        font-family: $font-family;
-          src: $url-prefix('#{$file-path}.eot');
-          src: $url-prefix('#{$file-path}.eot?#iefix') format('embedded-opentype'),
-               $url-prefix('#{$file-path}.woff') format('woff'),
-               $url-prefix('#{$file-path}.woff') format('woff2'),
-               $url-prefix('#{$file-path}.ttf') format('truetype'),
-               $url-prefix('#{$file-path}.svg#{$font-family}') format('svg');
-        font-weight: $font-weight;
-        font-style:  $font-style;
-      }
-
-  // Chrome for Windows rendering fix: http://www.adtrak.co.uk/blog/font-face-chrome-rendering/
-  // @media screen and (-webkit-min-device-pixel-ratio: 0) {
-  //   @font-face {
-  //     font-family: $font-family;
-  //       src: url('#{$file-path}.svg##{$font-family}') format('svg');
-  //   }
-  // }
 }
-
 
 
 
@@ -98,22 +142,6 @@
     border: 0;
     //user-select: none;
     border-radius: 0;
-}
-
-
-
-
-
-/*
-    TRUNCATE [1]
-    ----
-    
-    Yup that's it.    
-*/
-@mixin truncate() {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 
@@ -146,48 +174,8 @@
 
 
 
-
-
-
 /*
-    CLEARFIX
-    ----
-
-    Mixin to drop micro clearfix into a selector. Further reading:
-    http://www.cssmojo.com/the-very-latest-clearfix-reloaded/
-*/
-@mixin clearfix() {
-
-    &:after {
-        content: " " !important;
-        display: block !important;
-        clear: both !important;
-    }
-
-}
-
-
-
-
-
-/*
-    HOCUS
-    ----
-
-    Generate `:hover` and `:focus` styles in one go.
-    https://github.com/inuitcss/inuitcss/
-*/
-@mixin hocus() {
-    &:hover,
-    &:focus {
-        @content;
-    }
-}
-
-
-
-/*
-    HOCUS
+    Hidden visually
     ----
 
     Mixin to quickly apply accessible hiding to elements.
@@ -205,33 +193,50 @@
 }
 
 
+/*
+    bg-cover
+    ----
+
+   Because I find myself repeating this 
+   3 lines too often
+*/
+@mixin bg-cover($postion: center center){
+    background-size: cover;
+    background-position: $postion;
+    background-repeat: no-repeat;
+}
 
 
 
 /*
-    CUSTOM SCROLLBAR STYLES [3] (Work in Progress)
+    Fontawesome
+    ----
 
-    -webkit only
-
-    https://css-tricks.com/wp-content/uploads/2011/05/scrollbarparts.png
+    for inline css icons through unicode
 */
-@mixin customScrollBarStyle($size: 6px, $thumbColor: #002339, $trackBgColor: rgba(255,255,255,.1)){
 
-
-    /* 1 */
-    &::-webkit-scrollbar              { width: $size !important;  }
-    &::-webkit-scrollbar:horizontal   { height: $size !important; }
-    /* 2 */
-    &::-webkit-scrollbar-button       {  }
-    /* 3 */
-    &::-webkit-scrollbar-track        { background: $trackBgColor; }
-    /* 4 */
-    &::-webkit-scrollbar-track-piece  {  }
-    /* 5 */
-    &::-webkit-scrollbar-thumb        { background-color: $thumbColor; }
-    /* 6 */
-    &::-webkit-scrollbar-corner       {  }
-    /* 7 */
-    &::-webkit-resizer                {  }
+@mixin FontAwesome(){
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
 }
 
+
+/*
+    Clearfix
+    ----
+
+    clear all floats
+    http://cssmojo.com/the-very-latest-clearfix-reloaded/
+*/
+@mixin clearfix(){
+    &:after {
+        content:" ";
+        display:block;
+        clear:both;
+    }
+}
