@@ -10,6 +10,11 @@
 ##### deploy to github pages
 1. `npm run deploy` *will pass automatically the `--production` flag*
 
+# Roadmap
+1. Add linters (JS, SCSS);
+1. Review Gulp file
+1. Create Promo landing page for kit
+1. Adapt kit to other Whitesmith™ prefered platforms (React, Rails)
 
 ----
 # Whitesmith ™
