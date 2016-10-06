@@ -95,18 +95,30 @@ export function fonts() {
 export function styles() {
   return gulp.src(paths.styles.manifesto)
     .pipe($.plumber())
+    .pipe($.if(!productionEnv, $.sourcemaps.init({
+      loadMaps: true
+    })))
     .pipe($.sass({
+      precision: 10,
       sourceComments: !productionEnv,
       outputStyle: productionEnv ? 'compressed' : 'nested'
     }))
     .on('error', handleError('styles'))
     .pipe($.autoprefixer({
-      browsers: ['last 2 versions'],
+      browsers: [
+        'last 2 versions',
+        'ie >= 10',
+        'android >= 4.4'
+      ]
     }))
-    .pipe($.cleanCss())
+    .pipe($.if(productionEnv,$.cleanCss()))
     .pipe($.rename({
       basename: 'app'
     }))
+    .pipe($.if(!productionEnv, $.sourcemaps.write({
+      includeContent: true,
+      sourceRoot: '.'
+    })))
     .pipe(gulp.dest(paths.styles.dest))
     .pipe(browserSync.reload({stream: true}))
 }
